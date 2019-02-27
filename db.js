@@ -17,7 +17,6 @@ const messages = () => {
             return client.query(sql)
                 .then(res => {
                     client.release();
-                    console.log(res);
                     return res.rows;
                 })
                 .catch(err => {
@@ -27,15 +26,15 @@ const messages = () => {
         })
 }
 
-const post = () => {
+const categories = (topic) => {
     return pool.connect()
         .then(client => {
-            const sql = 'INSERT INTO post (content, created) VALUES ($1, $2);';
-            return client.query(sql, ['Testaan restiä, josko toimis post', '2019-02-25'])
+            const sql = 'SELECT topic FROM thread order by category;';
+            return client.query(sql)
                 .then(res => {
                     client.release();
-                    console.log(res);
-                    return res;
+                    console.log(res.rows);
+                    return res.rows;
                 })
                 .catch(err => {
                     client.release();
@@ -44,6 +43,22 @@ const post = () => {
         })
 }
 
-post();
+// const post = () => {
+//     return pool.connect()
+//         .then(client => {
+//             const sql = 'INSERT INTO post (content, created) VALUES ($1, $2);';
+//             return client.query(sql, ['Testaan restiä, josko toimis post', '2019-02-25'])
+//                 .then(res => {
+//                     client.release();
+//                     console.log(res);
+//                     return res;
+//                 })
+//                 .catch(err => {
+//                     client.release();
+//                     console.error(err);
+//                 });
+//         })
+// }
 
-module.exports = { messages }, { post };
+
+module.exports = { messages, categories};
