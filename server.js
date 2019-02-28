@@ -44,14 +44,19 @@ app.get('/api/categories', function (req, res) {
         })
 });
 // get messages by thread_id @Inari
-app.get('/api/thread', function (req, res) {
-    messages.threadId()
+app.get('/api/thread/:thread_id', function (req, res) {
+    let thread_id = req.params.thread_id;
+    if (!thread_id) {
+        res.status(400).send({ msg: "no id" });
+    }
+    messages.getWithThreadId(thread_id)
         .then(response => {
             console.log(response);
             res.send(response)
         })
 })
 // create a new new message into table 'post' @Inari
+// $Authentication required!
 app.post('/api/messages', function (req, res, next) {
     const content = req.body.content;
     const created = req.body.created;
@@ -83,7 +88,7 @@ app.delete('/api/messages/:user_id/:id', (req, res, next) => {
 
 app.use('/api', router);
 
-let server = app.listen(3000, () => {
+let server = app.listen(3001, () => {
     console.log(`Server listening on ${server.address().port}`);
 });
 
