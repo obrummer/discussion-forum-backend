@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const db = require('./db');
+require('dotenv').config();
 
 exports.register = async (uName, pWord) => {
     try {
@@ -13,16 +14,20 @@ exports.register = async (uName, pWord) => {
 };
 
 exports.signIn = async (uName, pWord) => {
-    let user = await db.getUserByUserName(uName);
-    if (user) {
-        let pWordComparison = bcrypt.compareSync(pWord, user[0].password);
-        if (pWordComparison) {
-            let tokenObj = { token: jwt.sign({ username: user[0].username, id: user[0].id }, 'catsinabag', { expiresIn: "4h" }) };
-            return tokenObj;
+    try {
+        let user = await db.getUserByUserName(uName);
+        if (user) {
+            let pWordComparison = bcrypt.compareSync(pWord, user[0].password);
+            if (pWordComparison) {
+                let tokenObj = { token: jwt.sign({ username: user[0].username, id: user[0].id }, process.env.SECRET, { expiresIn: "4h" }) };
+                return tokenObj;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
-    } else {
+    } catch (error) {
         return false;
     }
 };

@@ -36,13 +36,21 @@ app.get('/api/messages', function (req, res) {
         })
 });
 
-// get messages ordered by a category @Inari
-var topic;
-app.get('/api/categories', function (req, res) {
-    messages.categories(topic)
+// get all thread by category name
+app.get('/api/categories/:name', (req, res) => {
+    let categoryName = req.params.name;
+    console.log(categoryName);
+    messages.getThreadsByCategory(categoryName)
         .then(response => {
             res.send(response);
-            //console.log(response);
+        })
+})
+
+// get messages ordered by a category @Inari
+app.get('/api/categories', function (req, res) {
+    messages.categories()
+        .then(response => {
+            res.send(response);
         })
 });
 
@@ -61,12 +69,25 @@ app.get('/api/thread/:thread_id', function (req, res) {
 
 // create a new message into table 'post' @Inari
 // $ JWT verification required!
-app.post('/api/messages', function (req, res, next) {
-    const content = req.body.content;
-    const created = req.body.created;
-    messages.post(content, created)
-        .then(resolved => {
-            res.send('New message added');
+app.post('/api/messages', function (req, res) {
+    if (!req.headers.authorization) {
+        res.status(401).send({ success: false, msg: "Unauthorized user!" });
+        return;
+    };
+    let text = req.body.text;
+    let author_id = req.body.author_id;
+    let thread_id = req.body.thread_id;
+    messages.insertMessage(author_id, thread_id, text)
+        .then(response => {
+            if (response) {
+                res.status(201).send({ success: true });
+            } else {
+                throw new Error();
+            }
+        })
+        .catch(error => {
+            console.log('tuli virhe');
+            res.send({ success: false });
         })
 });
 
