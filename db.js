@@ -27,6 +27,7 @@ const messages = () => {
                 });
         })
 }
+
 //selects all users from table 'kayttaja' @Inari
 const users = () => {
     return pool.connect()
@@ -43,6 +44,7 @@ const users = () => {
                 });
         })
 }
+
 //selects messages by user_id and by post's id @Inari
 const messagesId = (userid) => {
     return pool.connect()
@@ -58,6 +60,24 @@ const messagesId = (userid) => {
                     console.error(err);
                 });
         })
+}
+
+// inserts new thread into tread table
+const insertThread = async (author_id, topic, category) => {
+    let client;
+    try {
+        client = await pool.connect();
+        const sql = 'INSERT INTO thread (user_id, topic, category) VALUES ($1, $2, $3) RETURNING *;';
+        const res = await client.query(sql, [author_id, topic, category]);
+        return res.rows;
+    } catch (error) {
+        console.error(error);
+        return false;
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
 }
 
 //selects messages by user_id and by post's id @Inari
@@ -145,22 +165,52 @@ const post = () => {
         })
 }
 
-// inserts new row to table 'kayttaja' @Inari
-const postUser = () => {
-    return pool.connect()
-        .then(client => {
-            const sql = 'INSERT INTO kayttaja (username, password, created) VALUES ($1, $2, $3);';
-            return client.query(sql, ['Salli', 'saltan', '2019-01-25 20:11:21'])
-                .then(res => {
-                    client.release();
-                    return res;
-                })
-                .catch(err => {
-                    client.release();
-                    console.error(err);
-                });
-        })
+// inserts new row to table 'kayttaja' @Inari/Juhanir
+const postUser = async (uName, pWord) => {
+    let client;
+    try {
+        client = await pool.connect();
+        const sql = 'INSERT INTO users (username, password) VALUES ($1, $2);';
+        const res = await client.query(sql, [uName, pWord]);
+        return res.rowCount > 0;
+    } catch (error) {
+        console.error(error);
+        return false;
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
 }
 
+// gets user by username for login password check @juhanir
+const getUserByUserName = async (uName) => {
+    let client;
+    try {
+        client = await pool.connect();
+        const sql = 'SELECT id, username, password FROM users WHERE username=$1;';
+        const res = await client.query(sql, [uName]);
+        return res.rows;
+    } catch (error) {
+        console.error(error);
+        return false;
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
 
-module.exports = { messages, messagesId, categories, deletePost, users, postUser, post, threadId, getWithThreadId };
+module.exports = {
+    messages,
+    messagesId,
+    categories,
+    deletePost,
+    users,
+    postUser,
+    post,
+    threadId,
+    getWithThreadId,
+    getUserByUserName,
+    insertThread
+};

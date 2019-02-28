@@ -2,10 +2,10 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var router = express.Router();
-//var fs = require('fs');
 var cors = require('cors');
 var messages = require('./db');
-var users = require('./db');
+const uh = require('./userhandlers');
+const jwt = require('jsonwebtoken');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,9 +19,10 @@ app.get('/api/messages/:user_id', function (req, res) {
             res.send(response);
         })
 });
+
 //get all users @Inari
 app.get('/api/users', function (req, res) {
-    users.users()
+    messages.users()
         .then(response => {
             res.send(response);
         })
@@ -34,6 +35,7 @@ app.get('/api/messages', function (req, res) {
             res.send(response);
         })
 });
+
 // get messages ordered by a category @Inari
 var topic;
 app.get('/api/categories', function (req, res) {
@@ -43,6 +45,7 @@ app.get('/api/categories', function (req, res) {
             //console.log(response);
         })
 });
+
 // get messages by thread_id @Inari
 app.get('/api/thread/:thread_id', function (req, res) {
     let thread_id = req.params.thread_id;
@@ -55,8 +58,9 @@ app.get('/api/thread/:thread_id', function (req, res) {
             res.send(response)
         })
 })
-// create a new new message into table 'post' @Inari
-// $Authentication required!
+
+// create a new message into table 'post' @Inari
+// $ JWT verification required!
 app.post('/api/messages', function (req, res, next) {
     const content = req.body.content;
     const created = req.body.created;
@@ -65,15 +69,73 @@ app.post('/api/messages', function (req, res, next) {
             res.send('New message added');
         })
 });
+
+// create new discussion thread
+// body must contain 'topic', 'category' and 'author_id' keys
+// $ authorization required!
+// must return thread id
+app.post('/api/thread', (req, res) => {
+    if (!req.headers.authorization) {
+        res.status(401).send({ success: false, msg: "Unauthorized user!" });
+        return;
+    };
+    let topic = req.body.topic;
+    let id = req.body.author_id;
+    let category = req.body.category;
+    messages.insertThread(id, topic, category)
+        .then(response => {
+            if (response) {
+                res.status(201).send(response[0]);
+                return;
+            }
+        })
+        .catch(error => {
+            console.log('tuli virhe');
+            res.status(500).send("Thread creation failed");
+        })
+})
+
 //create a new user into table 'kayttaja' @Inari
+// $ hashed password created!
 app.post('/api/users', function (req, res, next) {
     const username = req.body.username;
     const password = req.body.password;
-    const created = req.body.created;
-    users.postUser(username, password, created)
-        .then(resolved => {
-            res.send('New user added');
+    uh.register(username, password).then(response => {
+        if (response) {
+            res.status(201).send({
+                success: true,
+                msg: 'user created!'
+            });
+        } else {
+            res.status(500).send({
+                success: false
+            });
+        }
+    })
+        .catch(err => res.status(500).send({ success: false }));
+});
+
+// login method @juhanir
+// $ returns JWT with used id and name payload
+app.post('/api/users/login', (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    uh.signIn(username, password)
+        .then(response => {
+            if (response.token) {
+                let userid = jwt.decode(response.token).id;
+                let uname = jwt.decode(response.token).username;
+                res.status(200).json({
+                    success: true,
+                    token: response.token,
+                    id: userid,
+                    name: uname
+                });
+            } else {
+                res.status(401).send({ success: false });
+            }
         })
+        .catch(err => res.status(500).send({ success: false }));
 });
 
 //delete post by user_id and post's id @Inari
