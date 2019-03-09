@@ -31,7 +31,6 @@ router.get('/id/:id', async (req, res) => {
             message: 'Thread id required.'
         });
     }
-
     try {
         let dbResponse = await db.getThreadById(req.params.id);
         if (!dbResponse || dbResponse.length === 0) {
@@ -84,7 +83,6 @@ router.post('/', userhandler.verify, async (req, res) => {
             message: 'Topic, category or userId missing.'
         })
     }
-
     try {
         let dbResponse = await db.addThread(req.body.topic, req.body.category, req.body.author_id);
         if (!dbResponse || dbResponse.length === 0) {

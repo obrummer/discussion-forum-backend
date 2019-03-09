@@ -13,7 +13,6 @@ router.get('/thread/:id', async (req, res) => {
             message: 'Thread id must be present in params.'
         });
     }
-
     try {
         let dbResponse = await db.getAllMessagesByThreadId(req.params.id);
         if (!dbResponse || dbResponse.length === 0) {
@@ -39,7 +38,6 @@ router.get('/id/:id', userhandler.verify, async (req, res) => {
             message: 'Message id must be present in params.'
         });
     }
-
     try {
         let dbResponse = await db.getMessageById(req.params.id);
         if (!dbResponse || dbResponse.length === 0) {

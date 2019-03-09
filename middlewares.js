@@ -9,22 +9,17 @@ exports.logger = (req, res, next) => {
 }
 
 exports.register = [(req, res, next) => {
-
     if (!req.body.username || !req.body.pwinput) {
         return res.status(400).json({
             success: false,
             message: "Username or password undefined!"
         })
     }
-
     next();
-
 }, async (req, res, next) => {
-
     try {
         let hashword = bcrypt.hashSync(req.body.pwinput, 10);
         let userCreation = await db.createUser(req.body.username, hashword);
-        console.log(userCreation);
         if (userCreation.length === 0) {
             throw new Error('User not created for unknown reason.')
         };
@@ -34,24 +29,18 @@ exports.register = [(req, res, next) => {
             message: error.message
         })
     }
-
     next();
-
 }];
 
 exports.signIn = [(req, res, next) => {
-
     if (!req.body.username || !req.body.pwinput) {
         return res.status(400).json({
             success: false,
             message: "Username or password undefined!"
         })
     }
-
     next();
-
 }, async (req, res, next) => {
-
     try {
         let user = await db.getUserByName(req.body.username);
         if (!user || user.length === 0) {
@@ -59,7 +48,14 @@ exports.signIn = [(req, res, next) => {
         }
         let pWordComparison = bcrypt.compareSync(req.body.pwinput, user[0].password);
         if (pWordComparison) {
-            let tokenObj = { token: jwt.sign({ username: user[0].username, id: user[0].id }, process.env.SECRET, { expiresIn: "4h" }) };
+            let tokenObj = {
+                token: jwt.sign({
+                    username: user[0].username,
+                    id: user[0].id
+                }, process.env.SECRET, {
+                    expiresIn: "4h"
+                })
+            };
             res.setHeader("Authorization", "Bearer " + tokenObj.token);
         } else {
             throw new Error('Password incorrect!');
@@ -70,15 +66,11 @@ exports.signIn = [(req, res, next) => {
             message: error.message
         })
     }
-
     next();
-
 }];
 
 exports.verify = (req, res, next) => {
-
     const tkn = req.headers.authorization;
-
     try {
         if (!tkn) {
             throw new Error('Authorization missing');
@@ -93,7 +85,5 @@ exports.verify = (req, res, next) => {
             message: error.message
         })
     }
-
     next();
-
 };
