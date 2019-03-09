@@ -4,7 +4,7 @@ const userhandler = require('../middlewares');
 
 // ----- /api/thread route ----- //
 
-// GET all threads
+// GET <retrieve all threads>
 router.get('/', async (req, res) => {
     try {
         let dbResponse = await db.getAllThreads();
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET single thread by thread id
+// GET <retrieve single thread by thread id>
 router.get('/id/:id', async (req, res) => {
     if (!req.params.id) {
         return res.status(400).json({
@@ -49,7 +49,7 @@ router.get('/id/:id', async (req, res) => {
     }
 });
 
-// GET threads by category name
+// GET <retrieve threads by category name>
 router.get('/category/:category', async (req, res) => {
     if (!req.params.category) {
         return res.status(400).json({
@@ -74,7 +74,7 @@ router.get('/category/:category', async (req, res) => {
     }
 });
 
-// POST new thread 
+// POST <add new thread>
 // req body must contain 'topic', 'category', middleware adds author_id
 // User must be logged in and authorization header must contain Bearer <token>
 router.post('/', userhandler.verify, async (req, res) => {

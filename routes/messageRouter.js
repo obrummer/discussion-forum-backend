@@ -5,7 +5,7 @@ const userhandler = require('../middlewares');
 
 // ----- /api/messages route ----- //
 
-// GET all messages per thread id
+// GET <retrieve all messages per thread id>
 router.get('/thread/:id', async (req, res) => {
     if (!req.params.id) {
         return res.status(400).json({
@@ -31,7 +31,7 @@ router.get('/thread/:id', async (req, res) => {
     }
 });
 
-// GET single message per message id
+// GET <retrieve single message per message id>
 router.get('/id/:id', userhandler.verify, async (req, res) => {
     if (!req.params.id) {
         return res.status(400).json({
@@ -57,7 +57,7 @@ router.get('/id/:id', userhandler.verify, async (req, res) => {
     }
 });
 
-// POST new message to thread
+// POST <add new message to thread>
 // request body must contain content, thread_id, (author_id added by middleware)
 // user must be logged in
 router.post('/', userhandler.verify, async (req, res) => {
