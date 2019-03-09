@@ -5,7 +5,7 @@ const getAllMessagesByThreadId = async (threadId) => {
     let client;
     try {
         client = await pool.connect();
-        let sql = 'SELECT post.content, post.created, post.id, post.thread_id, users.username FROM post, users WHERE thread_id=$1 AND post.user_id=users.id ORDER BY created ASC;';
+        let sql = 'SELECT post.content, post.created, post.id, post.thread_id, users.username FROM post, users WHERE thread_id=$1 AND post.user_id=users.id ORDER BY post.created ASC;';
         let res = await client.query(sql, [threadId]);
         return res.rows
     } catch (error) {
