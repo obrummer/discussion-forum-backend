@@ -4,7 +4,7 @@ const userhandler = require('../middlewares');
 
 // ----- /api/users route ----- //
 
-// GET all users
+// GET <retrieve all users>
 // only for testing
 router.get('/', async (req, res) => {
     try {
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// POST register
+// POST <register username and password>
 // parameters req.body.username, req.body.pwinput
 // middleware calls next only if successful user creation
 router.post('/register', userhandler.register, async (req, res) => {
@@ -33,7 +33,7 @@ router.post('/register', userhandler.register, async (req, res) => {
     })
 });
 
-// POST login
+// POST <login with username and password>
 // parameters req.body.username, req.body.pwinput
 // middleware calls next only if successful login
 router.post('/login', userhandler.signIn, async (req, res) => {

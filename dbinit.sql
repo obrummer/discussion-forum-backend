@@ -29,7 +29,7 @@ CREATE TABLE post
     created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (username, password) VALUES ('McTestFace', '[create a password]');
+INSERT INTO users (username, password) VALUES ('McTestFace', 'testpassword');
 
 INSERT INTO thread (topic, category, user_id) VALUES ('Arrow functions and this..', 'javascript',  1);
 INSERT INTO thread (topic, category, user_id) VALUES ('Close my closures, understanding JS lexical scope', 'javascript',  1);
@@ -62,3 +62,5 @@ INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit am
 INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae pariatur amet culpa ipsam accusamus beatae corporis nobis impedit. Distinctio minima rem reprehenderit eveniet omnis quae eaque porro corporis necessitatibus natus!', 7,  1);
 INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae pariatur amet culpa ipsam accusamus beatae corporis nobis impedit. Distinctio minima rem reprehenderit eveniet omnis quae eaque porro corporis necessitatibus natus!', 8,  1);
 INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae pariatur amet culpa ipsam accusamus beatae corporis nobis impedit. Distinctio minima rem reprehenderit eveniet omnis quae eaque porro corporis necessitatibus natus!', 9,  1);
+
+\quit

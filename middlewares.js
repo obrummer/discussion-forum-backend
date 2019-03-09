@@ -88,7 +88,6 @@ exports.verify = (req, res, next) => {
         req.body.author_id = decoded.id;
         req.body.author_name = decoded.username
     } catch (error) {
-        console.error(error);
         return res.status(401).json({
             success: false,
             message: error.message
