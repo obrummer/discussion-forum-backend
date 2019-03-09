@@ -9,11 +9,13 @@ const userhandler = require('../middlewares');
 router.get('/', async (req, res) => {
     try {
         let dbResponse = await db.getAllUsers();
-        if (!dbResponse) { throw new Error('No users in database') }
+        if (!dbResponse) {
+            throw new Error('No users in database')
+        }
         res.status(200).json({
             success: true,
             message: dbResponse
-        })
+        });
     } catch (error) {
         res.status(500).json({
             success: false,
