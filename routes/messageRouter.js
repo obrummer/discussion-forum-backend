@@ -15,7 +15,7 @@ router.get('/thread/:id', async (req, res) => {
     }
     try {
         let dbResponse = await db.getAllMessagesByThreadId(req.params.id);
-        if (!dbResponse || dbResponse.length === 0) {
+        if (!dbResponse) {
             throw new Error('Message retrieval failed.')
         }
         res.status(200).json({
