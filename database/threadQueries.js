@@ -5,7 +5,7 @@ const getAllThreads = async () => {
   try {
     client = await pool.connect();
     let sql =
-      "SELECT thread.id, thread.topic, categories.name FROM thread, categories WHERE categories.id=thread.category_id ORDER BY categories.name, topic ASC;";
+      "SELECT thread.id, thread.category_id, thread.topic, categories.name FROM thread, categories WHERE categories.id=thread.category_id ORDER BY categories.name, topic ASC;";
     let res = await client.query(sql);
     return res.rows;
   } catch (error) {

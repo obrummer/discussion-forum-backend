@@ -39,12 +39,17 @@ CREATE TABLE post
 INSERT INTO users (username, password) VALUES ('McTestFace', 'testpassword');
 
 INSERT INTO categories (name) VALUES ('JavaScript');
+INSERT INTO categories (name) VALUES ('MongoDB');
+INSERT INTO categories (name) VALUES ('NodeJS');
+INSERT INTO categories (name) VALUES ('PostgreSQL');
 INSERT INTO categories (name) VALUES ('React');
 INSERT INTO categories (name) VALUES ('Angular');
 INSERT INTO categories (name) VALUES ('AWS');
+INSERT INTO categories (name) VALUES ('C++');
+INSERT INTO categories (name) VALUES ('Java');
 
 INSERT INTO thread (topic, category_id, user_id) VALUES ('Arrow functions and this..', 1,  1);
-INSERT INTO thread (topic, category_id, user_id) VALUES ('Understanding hooks, hookedy-dooks', 2,  1);
-INSERT INTO thread (topic, category_id, user_id) VALUES ('AWS Serverless technologies', 4,  1);
+INSERT INTO thread (topic, category_id, user_id) VALUES ('Understanding hooks, hookedy-dooks', 5,  1);
+INSERT INTO thread (topic, category_id, user_id) VALUES ('AWS Serverless technologies', 7,  1);
 
 \quit
