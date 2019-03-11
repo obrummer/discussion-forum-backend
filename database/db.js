@@ -7,7 +7,7 @@ const conopts = {
     host: 'localhost',
     database: process.env.PGDATABASE,
     port: 5432
-};
+}
 
 const pool = new Pool(conopts);
 

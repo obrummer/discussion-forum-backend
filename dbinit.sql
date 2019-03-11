@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 DROP DATABASE IF EXISTS devskulit;
 CREATE DATABASE devskulit;
 \connect devskulit;
+=======
+DROP DATABASE IF EXISTS discussion;
+CREATE DATABASE discussion;
+\connect discussion;
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
 
 CREATE TABLE users 
 (
@@ -11,11 +17,25 @@ CREATE TABLE users
     UNIQUE(username)
 );
 
+<<<<<<< HEAD
+=======
+CREATE TABLE categories
+(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    UNIQUE(name)
+);
+
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
 CREATE TABLE thread
 (
     id SERIAL PRIMARY KEY,
     topic VARCHAR(255) NOT NULL,
+<<<<<<< HEAD
     category VARCHAR(100) NOT NULL,
+=======
+    category_id INTEGER REFERENCES categories(id),
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
     user_id INTEGER REFERENCES users(id),
     created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -29,6 +49,7 @@ CREATE TABLE post
     created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+<<<<<<< HEAD
 INSERT INTO users (username, password) VALUES ('juhani', '$2b$10$u.pfnHvEVWzblrMzwMegpOgrewlWpkH2gyeTAyLC.HGeHWcM47VYG');
 
 INSERT INTO thread (topic, category, user_id) VALUES ('Arrow functions and this..', 'javascript',  1);
@@ -62,3 +83,22 @@ INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit am
 INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae pariatur amet culpa ipsam accusamus beatae corporis nobis impedit. Distinctio minima rem reprehenderit eveniet omnis quae eaque porro corporis necessitatibus natus!', 7,  1);
 INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae pariatur amet culpa ipsam accusamus beatae corporis nobis impedit. Distinctio minima rem reprehenderit eveniet omnis quae eaque porro corporis necessitatibus natus!', 8,  1);
 INSERT INTO post (content, thread_id, user_id) VALUES ('Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae pariatur amet culpa ipsam accusamus beatae corporis nobis impedit. Distinctio minima rem reprehenderit eveniet omnis quae eaque porro corporis necessitatibus natus!', 9,  1);
+=======
+INSERT INTO users (username, password) VALUES ('McTestFace', 'testpassword');
+
+INSERT INTO categories (name) VALUES ('JavaScript');
+INSERT INTO categories (name) VALUES ('MongoDB');
+INSERT INTO categories (name) VALUES ('NodeJS');
+INSERT INTO categories (name) VALUES ('PostgreSQL');
+INSERT INTO categories (name) VALUES ('React');
+INSERT INTO categories (name) VALUES ('Angular');
+INSERT INTO categories (name) VALUES ('AWS');
+INSERT INTO categories (name) VALUES ('C++');
+INSERT INTO categories (name) VALUES ('Java');
+
+INSERT INTO thread (topic, category_id, user_id) VALUES ('Arrow functions and this..', 1,  1);
+INSERT INTO thread (topic, category_id, user_id) VALUES ('Understanding hooks, hookedy-dooks', 5,  1);
+INSERT INTO thread (topic, category_id, user_id) VALUES ('AWS Serverless technologies', 7,  1);
+
+\quit
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112

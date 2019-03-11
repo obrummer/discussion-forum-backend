@@ -15,15 +15,14 @@ const getAllUsers = async () => {
             client.release();
         }
     }
-};
+}
 
 // returns user by username
-const getUserByName = async uName => {
+const getUserByName = async (uName) => {
     let client;
     try {
         client = await pool.connect();
-        const sql =
-            'SELECT id, username, password FROM users WHERE username LIKE $1;';
+        const sql = 'SELECT id, username, password FROM users WHERE username LIKE $1;';
         const res = await client.query(sql, [uName]);
         return res.rows;
     } catch (error) {
@@ -33,15 +32,14 @@ const getUserByName = async uName => {
             client.release();
         }
     }
-};
+}
 
 // creates a new user into user table
 const createUser = async (uName, pWord) => {
     let client;
     try {
         client = await pool.connect();
-        const sql =
-            'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING username;';
+        const sql = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING username;';
         let res = await client.query(sql, [uName, pWord]);
         return res.rows;
     } catch (error) {
@@ -51,10 +49,10 @@ const createUser = async (uName, pWord) => {
             client.release();
         }
     }
-};
+}
 
 module.exports = {
     getAllUsers,
     getUserByName,
     createUser
-};
+}

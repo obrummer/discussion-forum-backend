@@ -5,7 +5,11 @@ const userhandler = require('../middlewares');
 
 // ----- /api/messages route ----- //
 
+<<<<<<< HEAD
 // GET all messages per thread id
+=======
+// GET <retrieve all messages per thread id>
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
 router.get('/thread/:id', async (req, res) => {
     if (!req.params.id) {
         return res.status(400).json({
@@ -13,10 +17,16 @@ router.get('/thread/:id', async (req, res) => {
             message: 'Thread id must be present in params.'
         });
     }
+<<<<<<< HEAD
 
     try {
         let dbResponse = await db.getAllMessagesByThreadId(req.params.id);
         if (!dbResponse || dbResponse.length === 0) {
+=======
+    try {
+        let dbResponse = await db.getAllMessagesByThreadId(req.params.id);
+        if (!dbResponse) {
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
             throw new Error('Message retrieval failed.')
         }
         res.status(200).json({
@@ -31,7 +41,11 @@ router.get('/thread/:id', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 // GET single message per message id
+=======
+// GET <retrieve single message per message id>
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
 router.get('/id/:id', userhandler.verify, async (req, res) => {
     if (!req.params.id) {
         return res.status(400).json({
@@ -39,7 +53,10 @@ router.get('/id/:id', userhandler.verify, async (req, res) => {
             message: 'Message id must be present in params.'
         });
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
     try {
         let dbResponse = await db.getMessageById(req.params.id);
         if (!dbResponse || dbResponse.length === 0) {
@@ -57,7 +74,11 @@ router.get('/id/:id', userhandler.verify, async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 // POST new message to thread
+=======
+// POST <add new message to thread>
+>>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
 // request body must contain content, thread_id, (author_id added by middleware)
 // user must be logged in
 router.post('/', userhandler.verify, async (req, res) => {
