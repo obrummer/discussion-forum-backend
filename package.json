@@ -1,33 +1,12 @@
 {
-<<<<<<< HEAD
-  "name": "viikko8",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-=======
   "name": "discussion-forum-backend",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
->>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-<<<<<<< HEAD
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iaaltojarvi/Miniprojekti-2-REST-api.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/iaaltojarvi/Miniprojekti-2-REST-api/issues"
-  },
-  "homepage": "https://github.com/iaaltojarvi/Miniprojekti-2-REST-api#readme",
-=======
->>>>>>> cbfa63c8c14c963bc47ba89337257480d3ac8112
   "dependencies": {
     "bcrypt": "^3.0.4",
     "cors": "^2.8.5",
