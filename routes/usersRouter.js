@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db = require('../database/userqueries');
+const db = require('../database/userQueries');
 const userhandler = require('../middlewares');
 
 // ----- /api/users route ----- //

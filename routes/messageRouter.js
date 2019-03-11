@@ -2,7 +2,6 @@ const router = require('express').Router();
 const db = require('../database/messageQueries');
 const userhandler = require('../middlewares');
 
-
 // ----- /api/messages route ----- //
 
 // GET <retrieve all messages per thread id>
@@ -16,17 +15,11 @@ router.get('/thread/:id', async (req, res) => {
     try {
         let dbResponse = await db.getAllMessagesByThreadId(req.params.id);
         if (!dbResponse) {
-            throw new Error('Message retrieval failed.')
+            throw new Error('Message retrieval failed.');
         }
-        res.status(200).json({
-            success: true,
-            message: dbResponse
-        })
+        res.status(200).json({ success: true, message: dbResponse });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message });
     }
 });
 
@@ -41,17 +34,11 @@ router.get('/id/:id', userhandler.verify, async (req, res) => {
     try {
         let dbResponse = await db.getMessageById(req.params.id);
         if (!dbResponse || dbResponse.length === 0) {
-            throw new Error('Message retrieval failed.')
+            throw new Error('Message retrieval failed.');
         }
-        res.status(200).json({
-            success: true,
-            message: dbResponse
-        })
+        res.status(200).json({ success: true, message: dbResponse });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message });
     }
 });
 
@@ -63,22 +50,20 @@ router.post('/', userhandler.verify, async (req, res) => {
         return res.status(400).json({
             success: false,
             message: 'Content or userId undefined.'
-        })
+        });
     }
     try {
-        let dbResponse = await db.insertNewMessage(req.body.content, req.body.thread_id, req.body.author_id);
+        let dbResponse = await db.insertNewMessage(
+            req.body.content,
+            req.body.thread_id,
+            req.body.author_id
+        );
         if (!dbResponse || dbResponse.length === 0) {
-            throw new Error('Message addition failed.')
+            throw new Error('Message addition failed.');
         }
-        res.status(200).json({
-            success: true,
-            message: dbResponse
-        })
+        res.status(200).json({ success: true, message: dbResponse });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message });
     }
 });
 
